@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1533135778836" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="leave-process" isClosed="false" isExecutable="true" name="请假流程" processType="None">
+    <startEvent id="startEvent" name="开始" activiti:initiator="employeeName"/>
+    <userTask activiti:exclusive="true" id="leaveForm" name="填写申请">
+      <extensionElements>
+        <activiti:formProperty id="message" name="信息" required="true" type="string"/>
+        <activiti:formProperty id="name" name="申请人" required="true" type="string"/>
+        <activiti:formProperty id="submitDate" name="请假日期" required="true" type="date"/>
+        <activiti:formProperty id="submitType" name="是否提交" required="true" type="string"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="_4" sourceRef="startEvent" targetRef="leaveForm"/>
+    <exclusiveGateway gatewayDirection="Unspecified" id="submitOrCancel" name="提交Or取消"/>
+    <sequenceFlow id="_6" sourceRef="leaveForm" targetRef="submitOrCancel"/>
+    <endEvent id="cancel" name="取消"/>
+    <sequenceFlow id="_2" sourceRef="submitOrCancel" targetRef="cancel">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${submitType == "n" || submitType == "N"}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask activiti:exclusive="true" id="hr_approval" name="人事审批">
+      <extensionElements>
+        <activiti:formProperty id="approvalType" name="人事是否同意" required="true" type="string"/>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="_8" sourceRef="submitOrCancel" targetRef="hr_approval">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${submitType == "y" || submitType == "Y"}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endEvent" name="结束"/>
+    <sequenceFlow id="_9" sourceRef="hr_approval" targetRef="endEvent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approvalType == "n" || approvalType == "N"}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="agree" name="审批通过"/>
+    <sequenceFlow id="_5" sourceRef="hr_approval" targetRef="agree">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approvalType == "y" || approvalType == "Y"}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="leave-process">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="Shape-startEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="305.0" y="10.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="leaveForm" id="Shape-leaveForm">
+        <omgdc:Bounds height="55.0" width="85.0" x="275.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitOrCancel" id="Shape-submitOrCancel" isMarkerVisible="false">
+        <omgdc:Bounds height="32.0" width="32.0" x="305.0" y="235.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="cancel" id="Shape-cancel">
+        <omgdc:Bounds height="32.0" width="32.0" x="100.0" y="235.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="hr_approval" id="Shape-hr_approval">
+        <omgdc:Bounds height="55.0" width="85.0" x="275.0" y="460.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="15.0" y="470.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="agree" id="Shape-agree">
+        <omgdc:Bounds height="32.0" width="32.0" x="305.0" y="660.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_2" id="BPMNEdge__2" sourceElement="submitOrCancel" targetElement="cancel">
+        <omgdi:waypoint x="305.0" y="251.0"/>
+        <omgdi:waypoint x="132.0" y="251.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="startEvent" targetElement="leaveForm">
+        <omgdi:waypoint x="321.0" y="42.0"/>
+        <omgdi:waypoint x="321.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="hr_approval" targetElement="_3">
+        <omgdi:waypoint x="321.0" y="530.0"/>
+        <omgdi:waypoint x="321.0" y="660.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="leaveForm" targetElement="submitOrCancel">
+        <omgdi:waypoint x="321.0" y="170.0"/>
+        <omgdi:waypoint x="321.0" y="235.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="submitOrCancel" targetElement="hr_approval">
+        <omgdi:waypoint x="321.0" y="267.0"/>
+        <omgdi:waypoint x="321.0" y="460.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="BPMNEdge__9" sourceElement="hr_approval" targetElement="endEvent">
+        <omgdi:waypoint x="275.0" y="487.5"/>
+        <omgdi:waypoint x="47.0" y="486.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

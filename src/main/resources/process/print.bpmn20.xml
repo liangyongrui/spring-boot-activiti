@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1533520928967" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <process id="printProcess" isClosed="false" isExecutable="true" name="PrintProcess" processType="None">
+    <startEvent id="startEvent" name="StartEvent">
+      <extensionElements>
+        <activiti:formProperty id="name" name="name" required="true" type="string"/>
+      </extensionElements>
+    </startEvent>
+    <serviceTask activiti:delegateExpression="${helloWorld}" activiti:exclusive="true" id="printService" name="ServiceTask"/>
+    <sequenceFlow id="_4" sourceRef="startEvent" targetRef="printService"/>
+    <serviceTask activiti:class="com.zero.activiti.util.ErrorProcess" activiti:exclusive="true" id="errorService" name="ErrorService">
+      <extensionElements>
+        <activiti:mapException errorCode="myErrorCode1">com.zero.activiti.util.ExceptionHandler</activiti:mapException>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask activiti:delegateExpression="${helloWorld}" activiti:exclusive="true" id="printService2" name="PrintService2"/>
+    <sequenceFlow id="_5" sourceRef="printService" targetRef="errorService"/>
+    <sequenceFlow id="no-exception" sourceRef="errorService" targetRef="printService2"/>
+    <endEvent id="endEvent" name="EndEvent"/>
+    <sequenceFlow id="_8" sourceRef="printService2" targetRef="endEvent"/>
+    <endEvent id="exceptionEnd" name="ExceptionEnd"/>
+    <sequenceFlow id="exception" sourceRef="errorService" targetRef="exceptionEnd"/>
+  </process>
+  <bpmndi:BPMNDiagram documentation="background=#FFFFFF;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
+    <bpmndi:BPMNPlane bpmnElement="printProcess">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="Shape-startEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="450.0" y="20.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="printService" id="Shape-printService">
+        <omgdc:Bounds height="55.0" width="85.0" x="435.0" y="170.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="errorService" id="Shape-errorService">
+        <omgdc:Bounds height="55.0" width="85.0" x="445.0" y="305.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="printService2" id="Shape-printService2">
+        <omgdc:Bounds height="55.0" width="85.0" x="455.0" y="455.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="Shape-endEvent">
+        <omgdc:Bounds height="32.0" width="32.0" x="465.0" y="580.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exceptionEnd" id="Shape-exceptionEnd">
+        <omgdc:Bounds height="32.0" width="32.0" x="680.0" y="330.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_3" id="BPMNEdge__3" sourceElement="errorService" targetElement="_2">
+        <omgdi:waypoint x="530.0" y="332.5"/>
+        <omgdi:waypoint x="680.0" y="346.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4" id="BPMNEdge__4" sourceElement="startEvent" targetElement="printService">
+        <omgdi:waypoint x="466.0" y="52.0"/>
+        <omgdi:waypoint x="466.0" y="170.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5" id="BPMNEdge__5" sourceElement="printService" targetElement="errorService">
+        <omgdi:waypoint x="482.5" y="225.0"/>
+        <omgdi:waypoint x="482.5" y="305.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="errorService" targetElement="printService2">
+        <omgdi:waypoint x="492.5" y="360.0"/>
+        <omgdi:waypoint x="492.5" y="455.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="printService2" targetElement="endEvent">
+        <omgdi:waypoint x="481.0" y="510.0"/>
+        <omgdi:waypoint x="481.0" y="580.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
