@@ -84,10 +84,4 @@ public class ActivitiTest {
             taskService.complete(task.getId(), taskVariables);
         }
     }
-
-    @Test
-    public void test() {
-        StartFormData startFormData = formService.getStartFormData("vacationRequest:1:3");
-        TaskFormData taskFormData = formService.getTaskFormData("10009");
-    }
 }

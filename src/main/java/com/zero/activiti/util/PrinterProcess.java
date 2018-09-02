@@ -1,9 +1,8 @@
 package com.zero.activiti.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,9 +14,8 @@ import java.util.Map;
  * @since 2018/08/02
  */
 @Component
+@Slf4j
 public class PrinterProcess implements JavaDelegate {
-
-    private static final Logger log = LoggerFactory.getLogger(PrinterProcess.class);
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
